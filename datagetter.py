@@ -9,7 +9,7 @@ def main(argv):
    try:
       opts, args = getopt.getopt(argv,"hd:o:",["help", "datasource=", "outdir="])
    except getopt.GetoptError:
-      print 'datagetter.py -ds <datasource> -o <outputdir>'
+      print 'datagetter.py -d <datasource> -o <outputdir>'
       sys.exit(2)
 
    for opt, arg in opts:
