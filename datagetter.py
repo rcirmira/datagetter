@@ -4,19 +4,26 @@ import sys, getopt
 
 def main(argv):
    outputdir = ''
+   datasource = ''
+
    try:
-      opts, args = getopt.getopt(argv,"hi:o:",[@odir="])
+      opts, args = getopt.getopt(argv,"hd:o:",["help", "datasource=", "outdir="])
    except getopt.GetoptError:
       print 'datagetter.py -ds <datasource> -o <outputdir>'
       sys.exit(2)
+
    for opt, arg in opts:
-      if opt in ( "-?", "-h", "--help"):
-         print 'test.py -ds <datasource> -o <outputdir>'
+      if opt in ( "-h", "--help"):
+         print 'test.py -d <datasource> -o <outputdir>'
          sys.exit()
-      elif opt in ("-ds", "--datasource"):
+      elif opt in ("-d", "--datasource"):
          datasource = arg
       elif opt in ("-o", "--outdir"):
          outputdir = arg
+
+   if datasource == '' or outputdir == '':
+      print 'test.py -d <datasource> -o <outputdir>'
+      sys.exit()
    print 'Data Source: ', datasource
    print 'Output Dir: ', outputdir
 
