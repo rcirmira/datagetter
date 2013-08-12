@@ -1,31 +1,21 @@
 #!/usr/bin/python
 
-import sys, getopt
+import sys
+import argparse
+
+def parse_input(argv):
+	parser = argparse.ArgumentParser(description='Process getting financial data')
+	parser.add_argument('-d', '--datasource', nargs=1, metavar='datasource', help='Source of stock data, can be one of Norgate or Yahoo')
+	parser.add_argument('-o', '--outputdir', nargs=1, metavar='outputdir', help='Where data will be stored')
+	args = parser.parse_args()
+	
+	return args
 
 def main(argv):
-   outputdir = ''
-   datasource = ''
+	inputs = parse_input(argv)
 
-   try:
-      opts, args = getopt.getopt(argv,"hd:o:",["help", "datasource=", "outdir="])
-   except getopt.GetoptError:
-      print 'datagetter.py -d <datasource> -o <outputdir>'
-      sys.exit(2)
-
-   for opt, arg in opts:
-      if opt in ( "-h", "--help"):
-         print 'test.py -d <datasource> -o <outputdir>'
-         sys.exit()
-      elif opt in ("-d", "--datasource"):
-         datasource = arg
-      elif opt in ("-o", "--outdir"):
-         outputdir = arg
-
-   if datasource == '' or outputdir == '':
-      print 'test.py -d <datasource> -o <outputdir>'
-      sys.exit()
-   print 'Data Source: ', datasource
-   print 'Output Dir: ', outputdir
-
+	print 'Data Source: ', inputs.datasource[0]
+	print 'Output Dir: ', inputs.outputdir[0]
+	
 if __name__ == "__main__":
    main(sys.argv[1:])
