@@ -24,16 +24,9 @@ def wiki_html(url,file_name):
 	exchanges_dir = os.path.join(module_path,'exchanges')
 	file_path = os.path.abspath(exchanges_dir) + os.sep + file_name
 	
-	if(os.path.exists(file_path)):
-		opener = urllib2.build_opener()
-		print ">>>>>>", file_path
-		return opener.open("file://" + file_path).read()
-	else:
-		wiki_html = fetch_file('http://en.wikipedia.org/wiki/'+str(url))
-		saved_file = open(file_path , "w")
-		saved_file.write(wiki_html)
-		saved_file.close()
-		return wiki_html
+	wiki_html = fetch_file('http://en.wikipedia.org/wiki/'+str(url))
+
+	return wiki_html
 
 # Get unbiased SP500 symbols
 #	
