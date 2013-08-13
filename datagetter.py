@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import QSTK.qstkutil.DataAccess as da
 import sys
 import urllib2
 
@@ -82,10 +83,9 @@ def get_data( dir, symbol ):
 			
 		f.close()
 	
-def create_dir( folder ):
-	module_path = os.path.dirname( os.path.realpath( __file__ ) )
+def create_dir( module_path, folder ):
 	dir = os.path.join( module_path,folder )
-	
+	print dir
 	if not os.path.exists( dir ):
 		timeit( 'Creating directory: %s' % dir )
 		os.makedirs( dir )
@@ -102,10 +102,12 @@ def get_symbols( datasource, outputdir ):
 	timeit( 'Data Source: %s' % datasource )
 	timeit( 'Output Dir: %s' % outputdir )
 	
+	dataobj = da.DataAccess( datasource )
+	
 	symbols = get_sp500_symbols()
 	timeit( 'Finished getting symbols' )
 		
-	sp500_data_dir = create_dir( 'sp500_data' )
+	sp500_data_dir = create_dir( outputdir, 'sp500_data' )
 	
 	for obj in symbols:
 		get_data( sp500_data_dir, obj[ 'symbol' ] )
@@ -114,15 +116,15 @@ def get_symbols( datasource, outputdir ):
 
 def parse_input(argv):
 	parser = argparse.ArgumentParser( description='Process getting financial data' )
-	parser.add_argument( '-d', '--datasource', nargs=1, metavar='datasource', help='Source of stock data, For now only Norgate is supported' )
-	parser.add_argument( '-o', '--outputdir', nargs=1, metavar='outputdir', help='Where data will be stored' )
+	parser.add_argument( '-d', '--datasource', nargs=1, metavar='datasource', help='Source of stock data, For now only Norgate is supported', default='Norgate'	)
+	parser.add_argument( '-o', '--outputdir', nargs=1, metavar='outputdir', help='Where data will be stored', default=os.path.dirname( os.path.realpath( __file__ ) ) )
 	args = parser.parse_args()
 	
 	return args
-
+	
 def main( argv ):
 	inputs = parse_input( argv )
-	symbols = get_symbols( inputs.datasource[0], inputs.outputdir[0] )
+	symbols = get_symbols( inputs.datasource, inputs.outputdir )
 	
 if __name__ == "__main__":
 	timeit( 'Start' )
